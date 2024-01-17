@@ -1,7 +1,27 @@
 ---
-title: "darrenlingit.github.io"
+title: Darren Lin
+about:
+  template: trestles
+  image: images/darrenlin.jpg
+  image-shape: round
+  links:
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/darrenselin/
+    - icon: github
+      text: Github
+      href: https://github.com/darrenlingit
 ---
 
-This is a Quarto website.
+My name is Darren Lin. I'm a second year master's student in the biostatistics department at Johns Hopkins University.
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+
+## Education
+
+**Johns Hopkins University** | Baltimore, MD
+
+ScM in Biostatistics | Aug 2022 - May 2024
+
+**Johns Hopkins University** | Baltimore, MD
+
+BS in Applied Mathematics and Statistics | Aug 2018 - May 2022

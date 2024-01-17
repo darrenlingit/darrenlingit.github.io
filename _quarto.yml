@@ -3,18 +3,30 @@ project:
   output-dir: docs
 
 website:
-  title: "darrenlingit.github.io"
+  title: "Darren Lin"
   navbar:
     left:
       - href: index.qmd
         text: Home
       - about.qmd
+      - checksplit.qmd
+      - example_analysis.qmd
+
+  page-footer:
+    background: light
+    right:
+      - icon: linkedin
+        href: https://www.linkedin.com/in/darrenselin/
+      - icon: github
+        href: https://github.com/darrenlingit
 
 format:
   html:
-    theme: cosmo
+    theme: yeti
+    background-color: #1f9ef0;
     css: styles.css
-    toc: true
+    toc: FALSE
+    page-layout: full
 
 
 

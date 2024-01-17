@@ -1,0 +1,98 @@
+---
+title: "Check Splitting Calculator"
+format: html
+filters:
+  - shinylive
+---
+
+This is a simple Shiny app that calculates your portion of a check for when you eat out with friends.
+
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 600
+
+ui <- fluidPage(
+  titlePanel("Check Splitting Calculator"),
+  sidebarLayout(
+    sidebarPanel(
+      textInput("price0",
+                label = "Price",
+                value = 10),
+      actionButton(inputId = "rmv", label = "-"),
+      actionButton(inputId = "add", label = "+"),
+      textInput("tax",
+                label = "Tax Percentage (%)",
+                value = 6),
+      textInput("tip",
+                label = "Tip Percentage (%)",
+                value = "15")
+    ),
+    mainPanel(
+      textOutput("finalprice")
+    )
+  )
+)
+
+server <- function(input, output, session) {
+  add_rm_counter <- reactiveVal(0)
+  
+  # add additional text box to insert more prices
+  observeEvent(eventExpr = input$add,
+               handlerExpr = {
+                 add_rm_counter(add_rm_counter() + 1)
+                 insertUI(
+                   selector = "#rmv",
+                   where = "beforeBegin",
+                   ui = div(id = paste0("inserttext", add_rm_counter()),
+                            textInput(paste0("price", add_rm_counter()),
+                                      label = "Another Item")
+                   )
+                 )
+                 
+               }
+  )
+  
+  
+  # remove text box
+  observeEvent(eventExpr = input$rmv,
+               handlerExpr = {
+                 
+                 removeUI(
+                   selector = paste0("#inserttext", add_rm_counter())
+                 )
+                 add_rm_counter(add_rm_counter() - 1)
+                 
+               }
+  )
+  
+  # price calculation
+  total_sum <- reactive(
+    sum(
+      sapply(
+        X = 0:add_rm_counter(),
+        FUN = function(i) {
+          as.numeric(input[[paste0("price", i)]])
+        }
+      ),
+      na.rm = TRUE
+    )
+  )
+  
+  multiplier <- reactive(1 + (0.01*(as.numeric(input$tax)+as.numeric(input$tip))))
+
+  total_price <- reactive(total_sum()*multiplier())
+  
+  # final output for the total price
+  output$finalprice <- renderText(
+    if (is.na(multiplier())) {
+      paste("Make sure the tax and tip fields are numeric.")
+    } else {
+      paste("You owe", total_price(), "dollars.", sep = " ")
+    }
+  )
+  
+}
+
+shinyApp(ui = ui, server = server)
+```
+
