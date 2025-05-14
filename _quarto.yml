@@ -8,13 +8,18 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
-      - checksplit.qmd
-      - example_analysis.qmd
+      - href: CV.qmd
+        text: CV
+      - mini_samples.qmd
+      # - about.qmd
+      # - apps/checksplit.qmd
+      # - example_analysis.qmd
 
   page-footer:
     background: light
     right:
+      - icon: envelope
+        href: mailto:darresl1@ucla.edu
       - icon: linkedin
         href: https://www.linkedin.com/in/darrenselin/
       - icon: github
@@ -22,8 +27,8 @@ website:
 
 format:
   html:
-    theme: yeti
-    background-color: #1f9ef0;
+    theme: default
+    # background-color: #1f9ef0;
     css: styles.css
     toc: FALSE
     page-layout: full

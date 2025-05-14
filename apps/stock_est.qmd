@@ -1,0 +1,48 @@
+---
+title: "Stock Estimator"
+format: html
+---
+
+```{r}
+avg_cost_basis <- 30
+nshares <- 200
+profit_goal <- 5000
+
+total_cost_basis <- avg_cost_basis * nshares
+
+# what the total cost of all stocks should be
+total_cost_goal <- profit_goal + total_cost_basis
+
+# if you don't sell any stocks until you hit your price point
+sell_all_goal <- (total_cost_goal)/nshares
+
+# if you want to play it safe, sell half when stocks double and ride out the rest
+half_price_sell <- avg_cost_basis*2
+half_nshares <- nshares/2
+
+current_price <- 50
+
+pure_profit <- half_nshares*current_price
+
+half_sell_profit_share_price <- profit_goal/half_nshares
+
+# equilibrium stocks
+# total_cost_basis = nshares*current_price
+# nshares = total_cost_basis/current_price
+
+current_price <- 37
+sell_nshares <- ceiling(total_cost_basis/current_price) # number of stocks to sell to break even
+excess_shares <- nshares - sell_nshares # shares that run freely without needing to worry about losing profit
+pure_profit <- excess_shares*current_price
+
+# or if you want to sell it over time
+# first sell
+first_sell_nshares <- 25 # shares sold
+first_sell_price <- 40 # sells to 
+
+remaining_shares <- nshares - first_sell_nshares
+
+sell_price_needed <- (total_cost_goal - first_sell_nshares * first_sell_price)/remaining_shares
+
+```
+

@@ -1,52 +1,17 @@
 [
   {
-    "objectID": "checksplit.html",
-    "href": "checksplit.html",
+    "objectID": "apps/checksplit.html",
+    "href": "apps/checksplit.html",
     "title": "Check Splitting Calculator",
     "section": "",
     "text": "This is a simple Shiny app that calculates your portion of a check for when you eat out with friends.\n#| standalone: true\n#| viewerHeight: 600\n\nui &lt;- fluidPage(\n  titlePanel(\"Check Splitting Calculator\"),\n  sidebarLayout(\n    sidebarPanel(\n      textInput(\"price0\",\n                label = \"Price\",\n                value = 10),\n      actionButton(inputId = \"rmv\", label = \"-\"),\n      actionButton(inputId = \"add\", label = \"+\"),\n      textInput(\"tax\",\n                label = \"Tax Percentage (%)\",\n                value = 6),\n      textInput(\"tip\",\n                label = \"Tip Percentage (%)\",\n                value = \"15\")\n    ),\n    mainPanel(\n      textOutput(\"finalprice\")\n    )\n  )\n)\n\nserver &lt;- function(input, output, session) {\n  add_rm_counter &lt;- reactiveVal(0)\n  \n  # add additional text box to insert more prices\n  observeEvent(eventExpr = input$add,\n               handlerExpr = {\n                 add_rm_counter(add_rm_counter() + 1)\n                 insertUI(\n                   selector = \"#rmv\",\n                   where = \"beforeBegin\",\n                   ui = div(id = paste0(\"inserttext\", add_rm_counter()),\n                            textInput(paste0(\"price\", add_rm_counter()),\n                                      label = \"Another Item\")\n                   )\n                 )\n                 \n               }\n  )\n  \n  \n  # remove text box\n  observeEvent(eventExpr = input$rmv,\n               handlerExpr = {\n                 \n                 removeUI(\n                   selector = paste0(\"#inserttext\", add_rm_counter())\n                 )\n                 add_rm_counter(add_rm_counter() - 1)\n                 \n               }\n  )\n  \n  # price calculation\n  total_sum &lt;- reactive(\n    sum(\n      sapply(\n        X = 0:add_rm_counter(),\n        FUN = function(i) {\n          as.numeric(input[[paste0(\"price\", i)]])\n        }\n      ),\n      na.rm = TRUE\n    )\n  )\n  \n  multiplier &lt;- reactive(1 + (0.01*(as.numeric(input$tax)+as.numeric(input$tip))))\n\n  total_price &lt;- reactive(total_sum()*multiplier())\n  \n  # final output for the total price\n  output$finalprice &lt;- renderText(\n    if (is.na(multiplier())) {\n      paste(\"Make sure the tax and tip fields are numeric.\")\n    } else {\n      paste(\"You owe\", total_price(), \"dollars.\", sep = \" \")\n    }\n  )\n  \n}\n\nshinyApp(ui = ui, server = server)"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Darren Lin",
+    "objectID": "CV.html",
+    "href": "CV.html",
+    "title": "Curriculum Vitae",
     "section": "",
-    "text": "My name is Darren Lin. I’m a second year master’s student in the biostatistics department at Johns Hopkins University."
-  },
-  {
-    "objectID": "index.html#education",
-    "href": "index.html#education",
-    "title": "Darren Lin",
-    "section": "Education",
-    "text": "Education\nJohns Hopkins University | Baltimore, MD\nScM in Biostatistics | Aug 2022 - May 2024\nJohns Hopkins University | Baltimore, MD\nBS in Applied Mathematics and Statistics | Aug 2018 - May 2022"
-  },
-  {
-    "objectID": "example_analysis.html",
-    "href": "example_analysis.html",
-    "title": "Bigfoot",
-    "section": "",
-    "text": "Image source: (Mangan)\nlibrary(tidytuesdayR)\nlibrary(ggplot2)\nlibrary(tidyr)\nlibrary(dplyr)\nlibrary(\"maps\")\n\nif(!file.exists(\"bigfoot_data.RDS\")) {\n  bigfoot_data &lt;- tt_load('2022-09-13')\n  bigfoot &lt;- bigfoot_data$bigfoot\n\n  saveRDS(bigfoot, file = \"bigfoot_data.RDS\")\n}\n\nbigfoot &lt;- readRDS(\"bigfoot_data.RDS\")\nBigfoot has eluded cryptid hunters for decades now. The goal of this analysis is to help locate Bigfoot, with the intended audience being Bigfoot enthusiasts and other cryptid hunters. The question I’m hoping to answer is: Where is Bigfoot most likely to be spotted?\nThis data comes from the Tidy Tuesday (Tidy Tuesday). The original data comes from the Bigfoot Field Researchers Organization. The data dictionary is located here (Bigfoot Field Researchers Organization)."
-  },
-  {
-    "objectID": "example_analysis.html#tidyr",
-    "href": "example_analysis.html#tidyr",
-    "title": "Bigfoot",
-    "section": "tidyr",
-    "text": "tidyr\nselect()\nreplace_na()\ndrop_na()"
-  },
-  {
-    "objectID": "example_analysis.html#dplyr",
-    "href": "example_analysis.html#dplyr",
-    "title": "Bigfoot",
-    "section": "dplyr",
-    "text": "dplyr\ndistinct()\nrename()"
-  },
-  {
-    "objectID": "example_analysis.html#ggplot2",
-    "href": "example_analysis.html#ggplot2",
-    "title": "Bigfoot",
-    "section": "ggplot2",
-    "text": "ggplot2\ngeom_bar()\ngeom_polygon()\ngeom_point()\ngeom_histogram()"
+    "text": "Download current CV"
   },
   {
     "objectID": "about.html",
@@ -54,5 +19,61 @@
     "title": "About",
     "section": "",
     "text": "My name is Darren Lin. I’m a second year master’s student in the biostatistics department at Johns Hopkins University. I was also an undergraduate at Johns Hopkins, where I majored in applied mathematics and public health.\nI’m originally from Southern California, but moved to Baltimore for my undergrad. In my free time, I enjoy exploring Baltimore and trying new things."
+  },
+  {
+    "objectID": "mini_projects/big_foot_analysis/example_analysis.html",
+    "href": "mini_projects/big_foot_analysis/example_analysis.html",
+    "title": "Bigfoot",
+    "section": "",
+    "text": "Image source: (Mangan)\nlibrary(tidytuesdayR)\nlibrary(ggplot2)\nlibrary(tidyr)\nlibrary(dplyr)\nlibrary(\"maps\")\n\nif(!file.exists(\"bigfoot_data.RDS\")) {\n  bigfoot_data &lt;- tt_load('2022-09-13')\n  bigfoot &lt;- bigfoot_data$bigfoot\n\n  saveRDS(bigfoot, file = \"bigfoot_data.RDS\")\n}\n\nbigfoot &lt;- readRDS(\"bigfoot_data.RDS\")\nBigfoot has eluded cryptid hunters for decades now. The goal of this analysis is to help locate Bigfoot, with the intended audience being Bigfoot enthusiasts and other cryptid hunters. The question I’m hoping to answer is: Where is Bigfoot most likely to be spotted?\nThis data comes from the Tidy Tuesday (Tidy Tuesday). The original data comes from the Bigfoot Field Researchers Organization. The data dictionary is located here (Bigfoot Field Researchers Organization)."
+  },
+  {
+    "objectID": "mini_projects/big_foot_analysis/example_analysis.html#tidyr",
+    "href": "mini_projects/big_foot_analysis/example_analysis.html#tidyr",
+    "title": "Bigfoot",
+    "section": "tidyr",
+    "text": "tidyr\nselect()\nreplace_na()\ndrop_na()"
+  },
+  {
+    "objectID": "mini_projects/big_foot_analysis/example_analysis.html#dplyr",
+    "href": "mini_projects/big_foot_analysis/example_analysis.html#dplyr",
+    "title": "Bigfoot",
+    "section": "dplyr",
+    "text": "dplyr\ndistinct()\nrename()"
+  },
+  {
+    "objectID": "mini_projects/big_foot_analysis/example_analysis.html#ggplot2",
+    "href": "mini_projects/big_foot_analysis/example_analysis.html#ggplot2",
+    "title": "Bigfoot",
+    "section": "ggplot2",
+    "text": "ggplot2\ngeom_bar()\ngeom_polygon()\ngeom_point()\ngeom_histogram()"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Darren Lin",
+    "section": "",
+    "text": "My name is Darren Lin. I am currently a first year doctoral student in the Department of Biostatistics at the University of California, Los Angeles."
+  },
+  {
+    "objectID": "index.html#education",
+    "href": "index.html#education",
+    "title": "Darren Lin",
+    "section": "Education",
+    "text": "Education\nUniversity of California, Los Angeles | Los Angeles, CA\nPh.D. in Biostatistics | Sept 2024 - Present\nJohns Hopkins University | Baltimore, MD\nSc.M. in Biostatistics | Aug 2022 - May 2024\nJohns Hopkins University | Baltimore, MD\nB.S. in Applied Mathematics and Statistics | Aug 2018 - May 2022"
+  },
+  {
+    "objectID": "mini_samples.html",
+    "href": "mini_samples.html",
+    "title": "Mini Projects",
+    "section": "",
+    "text": "Bigfoot\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCheck Splitting Calculator\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "apps/stock_est.html",
+    "href": "apps/stock_est.html",
+    "title": "Stock Estimator",
+    "section": "",
+    "text": "avg_cost_basis &lt;- 30\nnshares &lt;- 200\nprofit_goal &lt;- 5000\n\ntotal_cost_basis &lt;- avg_cost_basis * nshares\n\n# what the total cost of all stocks should be\ntotal_cost_goal &lt;- profit_goal + total_cost_basis\n\n# if you don't sell any stocks until you hit your price point\nsell_all_goal &lt;- (total_cost_goal)/nshares\n\n# if you want to play it safe, sell half when stocks double and ride out the rest\nhalf_price_sell &lt;- avg_cost_basis*2\nhalf_nshares &lt;- nshares/2\n\ncurrent_price &lt;- 50\n\npure_profit &lt;- half_nshares*current_price\n\nhalf_sell_profit_share_price &lt;- profit_goal/half_nshares\n\n# equilibrium stocks\n# total_cost_basis = nshares*current_price\n# nshares = total_cost_basis/current_price\n\ncurrent_price &lt;- 37\nsell_nshares &lt;- ceiling(total_cost_basis/current_price) # number of stocks to sell to break even\nexcess_shares &lt;- nshares - sell_nshares # shares that run freely without needing to worry about losing profit\npure_profit &lt;- excess_shares*current_price\n\n# or if you want to sell it over time\n# first sell\nfirst_sell_nshares &lt;- 25 # shares sold\nfirst_sell_price &lt;- 40 # sells to \n\nremaining_shares &lt;- nshares - first_sell_nshares\n\nsell_price_needed &lt;- (total_cost_goal - first_sell_nshares * first_sell_price)/remaining_shares"
   }
 ]

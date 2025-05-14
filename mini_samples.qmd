@@ -1,0 +1,8 @@
+---
+title: "Mini Projects"
+listing:
+  contents:
+    - "checksplit.qmd"
+    - "mini_projects"
+---
+
