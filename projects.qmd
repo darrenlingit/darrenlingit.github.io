@@ -2,6 +2,6 @@
 title: "Projects"
 listing:
   contents:
-    - "mini_projects"
+    - "projects"
 ---
 

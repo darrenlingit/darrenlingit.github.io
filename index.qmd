@@ -16,16 +16,16 @@ about:
       href: https://github.com/darrenlingit
 ---
 
-My name is Darren Lin. I am currently a first year doctoral student in the Department of Biostatistics at the University of California, Los Angeles.
+My name is Darren Lin. I am a doctoral student in the Department of Biostatistics at the University of California, Los Angeles. I previously received my bachelor's and master's degrees from Johns Hopkins University.
 
 ## Education
 
 **University of California, Los Angeles** | Los Angeles, CA
 
-Ph.D. in Biostatistics | Sept 2024 - Present
+Ph.D. in Biostatistics | September 2024 - Present
 
 **Johns Hopkins University** | Baltimore, MD
 
-Sc.M. in Biostatistics | Aug 2022 - May 2024
+Sc.M. in Biostatistics | August 2022 - May 2024
 
-B.S. in Applied Mathematics and Statistics | Aug 2018 - May 2022
+B.S. in Applied Mathematics and Statistics | August 2018 - May 2022

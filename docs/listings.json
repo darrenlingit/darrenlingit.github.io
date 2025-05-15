@@ -1,9 +1,9 @@
 [
   {
-    "listing": "/mini_samples.html",
+    "listing": "/projects.html",
     "items": [
-      "/mini_projects/big_foot_analysis/example_analysis.html",
-      "/mini_projects/checksplit.html"
+      "/projects/big_foot_analysis/bigfoot_analysis.html",
+      "/projects/checksplit.html"
     ]
   }
 ]
