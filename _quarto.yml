@@ -5,15 +5,15 @@ project:
 website:
   title: "Darren Lin"
   navbar:
+    background: "#f9f9f9"
     left:
       - href: index.qmd
         text: Home
       - href: CV.qmd
         text: CV
-      - mini_samples.qmd
-      # - about.qmd
-      # - apps/checksplit.qmd
-      # - example_analysis.qmd
+      - href: mini_samples.qmd
+        text: Projects
+
 
   page-footer:
     background: light
@@ -28,7 +28,7 @@ website:
 format:
   html:
     theme: default
-    # background-color: #1f9ef0;
+    background-color: "#dad9d9"
     css: styles.css
     toc: FALSE
     page-layout: full

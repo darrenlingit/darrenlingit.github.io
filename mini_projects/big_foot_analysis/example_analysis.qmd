@@ -1,8 +1,11 @@
 ---
-title: "Bigfoot"
+title: "Analysis of Potential Bigfoot Locations"
 editor: visual
 bibliography: bigfoot_citations.bib
 csl: modern-language-association.csl
+image: false
+description: "Bigfoot has eluded cryptid hunters for decades now. The goal of this analysis is to help locate Bigfoot. Where is Bigfoot most likely to be spotted?"
+
 ---
 
 ![Image source: [@mangan_he_2019]](bigfoot.jpg){fig-align="center" width="437"}

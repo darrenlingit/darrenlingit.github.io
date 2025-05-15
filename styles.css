@@ -1,1 +1,26 @@
 /* css styles */
+
+/* Change color of active menu link */
+.navbar .nav-link.active {
+  color: #797979 !important;
+  font-weight: bold; /* bold */
+}
+
+/* Normal link color */
+.navbar a.nav-link {
+  color: #b6b6b6;
+}
+
+.navbar-brand {
+  color: #b6b6b6;   /* color for brand link; left most link in navbar */
+}
+
+/* Hover color */
+.navbar a.nav-link:hover {
+  color: #797979;
+}
+
+.navbar-brand:hover {
+  color: #797979 !important;   /* hover color for brand link; left most link in navbar */
+}
+
