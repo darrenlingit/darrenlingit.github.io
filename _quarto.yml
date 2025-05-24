@@ -9,10 +9,15 @@ website:
     left:
       # - href: index.qmd
       #   text: Home
+      - href: teaching.qmd
+        text: Teaching
+      # - href: research.qmd
+      #   text: Research
       - href: projects.qmd
         text: Projects
       - href: CV.qmd
         text: CV
+      
 
 
   page-footer:

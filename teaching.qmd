@@ -1,0 +1,49 @@
+---
+title: "Teaching"
+format: html
+---
+
+<!-- # UCLA -->
+
+<!-- **Introduction to Biostatistics (BIOSTAT 100A)** -->
+
+<!-- *Department of Biostatistics, University of California, Los Angeles,* Spring 2025 -->
+
+<!-- **Introduction to Biostatistics (BIOSTAT 201B)** -->
+
+<!-- *Department of Biostatistics, University of California, Los Angeles,* Winter 2025 -->
+
+<!-- **Introduction to Biostatistics (BIOSTAT 201A)** -->
+
+<!-- *Department of Biostatistics, University of California, Los Angeles,* Spring 2025 -->
+
+### University of California, Los Angeles
+**Department of Biostatistics**
+*Teaching Assistant*
+*September 2024 – Present*
+
+- **BIOSTAT 100: Introduction to Biostatistics** *(Undergraduate)*
+*Spring 2025*
+
+- **BIOSTAT 201B: Introduction to Biostatistics** *(Graduate)*
+*Winter 2025*
+
+- **BIOSTAT 201A: Introduction to Biostatistics** *(Graduate)*
+*Fall 2024*
+
+
+### Johns Hopkins University
+**Department of Biostatistics**
+*Teaching Assistant*
+*August 2023 – May 2024*
+
+- **PH.140.624: Statistical Methods in Public Health IV** *(Graduate)*
+*Term 4 2024*
+
+- **PH.140.623: Statistical Methods in Public Health III** *(Graduate)*
+*Term 3 2024*
+
+- **AS.280.345: Public Health Biostatistics** *(Undergraduate)* 
+*Term 1-2 2023*
+
+
