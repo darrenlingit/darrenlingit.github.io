@@ -17,6 +17,10 @@ website:
         text: Projects
       - href: CV.qmd
         text: CV
+      - text: "Course Guides"
+        menu:
+          - text: "Multivariate Biostatistics"
+            href: "https://darrenlingit.github.io/biostat-250c-guide/"
       
 
 
