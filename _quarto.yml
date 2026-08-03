@@ -13,8 +13,12 @@ website:
         text: Teaching
       # - href: research.qmd
       #   text: Research
-      - href: projects.qmd
-        text: Projects
+      - text: "Projects"
+        menu:
+          - text: "Race Results"
+            href: projects/race_results.qmd
+          - text: "Check Splitting Calculator"
+            href: projects/checksplit.qmd
       - href: CV.qmd
         text: CV
       - text: "Course Guides"

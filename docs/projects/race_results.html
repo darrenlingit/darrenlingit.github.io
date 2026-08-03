@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Check Splitting Calculator – Darren Lin</title>
+<title>Results – Darren Lin</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -43,11 +43,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-ab20261aefa35fdbbb22e84ecac814a7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<meta name="shinylive:serviceworker_dir" content="..">
-<script src="../site_libs/quarto-contrib/shinylive-0.9.1/shinylive/load-shinylive-sw.js" type="module"></script>
-<script src="../site_libs/quarto-contrib/shinylive-0.9.1/shinylive/run-python-blocks.js" type="module"></script>
-<link href="../site_libs/quarto-contrib/shinylive-0.9.1/shinylive/shinylive.css" rel="stylesheet">
-<link href="../site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -75,6 +70,14 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="../site_libs/core-js-2.5.3/shim.min.js"></script>
+<script src="../site_libs/react-18.2.0/react.min.js"></script>
+<script src="../site_libs/react-18.2.0/react-dom.min.js"></script>
+<script src="../site_libs/reactwidget-2.0.0/react-tools.js"></script>
+<link href="../site_libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet">
+<script src="../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="../site_libs/reactable-0.4.5/reactable.css" rel="stylesheet">
+<script src="../site_libs/reactable-binding-0.4.5/reactable.js"></script>
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -148,7 +151,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Check Splitting Calculator</h1>
+<h1 class="title">Results</h1>
 </div>
 
 
@@ -165,101 +168,20 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This is a simple Shiny app that calculates your portion of a check for when you eat out with friends.</p>
-<pre class="shinylive-r" data-engine="r"><code>#| standalone: true
-#| viewerHeight: 600
-
-library(shiny)
-library(bslib)
-
-ui &lt;- fluidPage(
-  theme = bs_theme(
-    version = 5,
-    bootswatch = "flatly",
-    primary = "#3B7A57"
-  ),
-  titlePanel("Check Splitting Calculator"),
-  sidebarLayout(
-    sidebarPanel(
-      numericInput("price0",
-                   label = "Item Price ($)",
-                   value = 10, min = 0, step = 0.01),
-      div(id = "item-list"),
-      div(
-        style = "display: flex; gap: 8px; margin-bottom: 15px;",
-        actionButton(inputId = "add", label = "+ Add item", class = "btn-primary btn-sm"),
-        actionButton(inputId = "rmv", label = "- Remove item", class = "btn-outline-secondary btn-sm")
-      ),
-      hr(),
-      numericInput("tax",
-                   label = "Tax (%)",
-                   value = 6, min = 0, step = 0.1),
-      numericInput("tip",
-                   label = "Tip (%)",
-                   value = 15, min = 0, step = 1)
-    ),
-    mainPanel(
-      uiOutput("summary_card")
-    )
-  )
-)
-
-server &lt;- function(input, output, session) {
-  add_rm_counter &lt;- reactiveVal(0)
-
-  observeEvent(input$add, {
-    add_rm_counter(add_rm_counter() + 1)
-    insertUI(
-      selector = "#item-list",
-      where = "beforeEnd",
-      ui = div(id = paste0("inserttext", add_rm_counter()),
-               numericInput(paste0("price", add_rm_counter()),
-                            label = paste("Item", add_rm_counter() + 1, "Price ($)"),
-                            value = 0, min = 0, step = 0.01))
-    )
-  })
-
-  observeEvent(input$rmv, {
-    req(add_rm_counter() &gt; 0)
-    removeUI(selector = paste0("#inserttext", add_rm_counter()))
-    add_rm_counter(add_rm_counter() - 1)
-  })
-
-  total_sum &lt;- reactive({
-    sum(sapply(0:add_rm_counter(), function(i) {
-      val &lt;- input[[paste0("price", i)]]
-      if (is.null(val) || is.na(val)) 0 else val
-    }))
-  })
-
-  tax_amt &lt;- reactive(total_sum() * (as.numeric(input$tax) / 100))
-  tip_amt &lt;- reactive(total_sum() * (as.numeric(input$tip) / 100))
-  total_price &lt;- reactive(total_sum() + tax_amt() + tip_amt())
-
-  fmt &lt;- function(x) sprintf("$%.2f", x)
-
-  output$summary_card &lt;- renderUI({
-    if (is.na(total_price())) {
-      div(class = "alert alert-warning", "Make sure all fields are numeric.")
-    } else {
-      div(
-        class = "card shadow-sm",
-        style = "max-width: 320px; padding: 20px;",
-        div(style = "display:flex; justify-content:space-between;",
-            span("Subtotal"), span(fmt(total_sum()))),
-        div(style = "display:flex; justify-content:space-between;",
-            span(paste0("Tax (", input$tax, "%)")), span(fmt(tax_amt()))),
-        div(style = "display:flex; justify-content:space-between;",
-            span(paste0("Tip (", input$tip, "%)")), span(fmt(tip_amt()))),
-        hr(),
-        div(style = "display:flex; justify-content:space-between; font-weight:700; font-size:1.2rem;",
-            span("You owe"), span(fmt(total_price())))
-      )
-    }
-  })
-}
-
-shinyApp(ui = ui, server = server)</code></pre>
+<p><label style="display:inline-flex; align-items:center; gap:6px; margin-bottom:8px; font-size:0.9rem;"> <input type="checkbox" onchange="
+    Reactable.toggleHideColumn('results-table', 'overall');
+    Reactable.toggleHideColumn('results-table', 'overall_pctl_disp');
+    Reactable.toggleHideColumn('results-table', 'group_rank_disp');
+    Reactable.toggleHideColumn('results-table', 'group_pctl_disp');
+    Reactable.toggleHideColumn('results-table', 'gender_rank_disp');
+    Reactable.toggleHideColumn('results-table', 'gender_pctl_disp');
+  "> Show as percentile </label></p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="reactable html-widget html-fill-item" id="results-table" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="results-table">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"name":["Santa Monica Classic","Rose Bowl Half Marathon & 5K","LA 5K","Dim Sum & Then Some"],"distance":["5K","5K","5K","10K"],"date":["2025-09-07","2026-01-18","2026-03-07","2026-08-01"],"location":["Santa Monica, CA","Pasadena, CA","Los Angeles, CA","Chicago, IL"],"time":["29:11","31:17","32:36","1:00:30"],"per_mile_pace":["9:23","10:03","10:29","9:45"],"overall":["332 / 1735","277 / 1234","1280 / 6250","242 / 523"],"overall_pctl_disp":["81%","78%","80%","54%"],"group":["M 25-29","M 25-29","M 25-29","M 25-29"],"group_rank_disp":["40 / 97","29 / 61","126 / 331","47 / 85"],"group_pctl_disp":["60%","54%","62%","46%"],"gender_rank_disp":["260 / 722","335 / 483","1166 / 2558","174 / 295"],"gender_pctl_disp":["64%","31%","54%","41%"],"shoes":["Nike Pegasus 41","Nike Pegasus 41","Asics Novablast 5","Asics Novablast 5"],"results_link":["https://www.athlinks.com/event/396369/results/Event/1116282/Course/2617141/Bib/1546","https://www.athlinks.com/event/359205/results/Event/1131359/Course/2661735/Bib/11327","https://sites.chronotrack.com/event/90804/results/entry/77564169","https://results.itsracetime.com/myresults.aspx?uid=17095-1609-2-281366"],"notes":[null,null,null,"It was pouring. Had to run through puddles and mud."]},"columns":[{"id":"name","name":"Race","type":"character","minWidth":160},{"id":"distance","name":"Dist.","type":"character","maxWidth":80},{"id":"date","name":"Date","type":"Date","format":{"cell":{"date":true},"aggregated":{"date":true}},"maxWidth":110},{"id":"location","name":"Location","type":"character","minWidth":130},{"id":"time","name":"Time","type":"character","maxWidth":90},{"id":"per_mile_pace","name":"Pace/mi","type":"character","maxWidth":90},{"id":"overall","name":"Overall Rank","type":"character","maxWidth":110},{"id":"overall_pctl_disp","name":"Overall %ile","type":"character","show":false,"maxWidth":110},{"id":"group","name":"Age Group","type":"character","maxWidth":100},{"id":"group_rank_disp","name":"Group Rank","type":"character","maxWidth":100},{"id":"group_pctl_disp","name":"Group %ile","type":"character","show":false,"maxWidth":100},{"id":"gender_rank_disp","name":"Gender Rank","type":"character","maxWidth":110},{"id":"gender_pctl_disp","name":"Gender %ile","type":"character","show":false,"maxWidth":110},{"id":"shoes","name":"Shoes","type":"character","minWidth":130},{"id":"results_link","name":"Results","type":"character","cell":[{"name":"a","attribs":{"href":"https://www.athlinks.com/event/396369/results/Event/1116282/Course/2617141/Bib/1546","target":"_blank"},"children":["View →"]},{"name":"a","attribs":{"href":"https://www.athlinks.com/event/359205/results/Event/1131359/Course/2661735/Bib/11327","target":"_blank"},"children":["View →"]},{"name":"a","attribs":{"href":"https://sites.chronotrack.com/event/90804/results/entry/77564169","target":"_blank"},"children":["View →"]},{"name":"a","attribs":{"href":"https://results.itsracetime.com/myresults.aspx?uid=17095-1609-2-281366","target":"_blank"},"children":["View →"]}],"maxWidth":90},{"id":"notes","name":"Notes","type":"character","minWidth":150}],"filterable":true,"searchable":true,"defaultSortDesc":true,"defaultSorted":[{"id":"date","desc":true}],"defaultPageSize":10,"highlight":true,"striped":true,"elementId":"results-table","dataKey":"c7dc13e4ba53b464642276b338e6f6fb"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
 
 
 

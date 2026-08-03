@@ -1,0 +1,135 @@
+---
+title: "Results"
+format: html
+---
+
+
+```{r include=FALSE}
+library(readxl)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(lubridate)
+library(ggplot2)
+library(scales)
+library(janitor)
+library(reactable)
+library(tidyverse)
+library(here)
+
+here::i_am("projects/race_results.qmd")
+```
+
+```{r include=FALSE}
+races_raw <- read_excel(here("data/race_results.xlsx"), sheet = 1) %>%
+  clean_names()
+
+
+
+hms_to_sec <- function(x) {
+  if (inherits(x, "POSIXct") || inherits(x, "POSIXt")) {
+    hour(x) * 3600 + minute(x) * 60 + second(x)
+  } else if (is.numeric(x)) {
+    # raw Excel serial fraction of a day
+    round(x * 86400)
+  } else {
+    period_to_seconds(hms(x))
+  }
+}
+
+sec_to_clock <- function(s) {
+  h <- s %/% 3600
+  m <- (s %% 3600) %/% 60
+  se <- round(s %% 60)
+  ifelse(h > 0,
+         sprintf("%d:%02d:%02d", h, m, se),
+         sprintf("%d:%02d", m, se))
+}
+races <- races_raw %>%
+  mutate(
+    date = as_date(date),
+    time_sec = hms_to_sec(time),
+    pace_sec = hms_to_sec(per_mile_pace),
+    time = sec_to_clock(time_sec),
+    per_mile_pace = sec_to_clock(pace_sec),
+    overall_pctl = 1 - (overall_rank - 1) / overall_total,
+    group_pctl = 1 - (group_rank - 1) / group_total,
+    distance_mi = case_when(
+      str_detect(distance, "^5K")  ~ 3.107,
+      str_detect(distance, "^10K") ~ 6.214,
+      str_detect(distance, "Half") ~ 13.11,
+      TRUE ~ NA_real_
+    )
+  ) %>%
+  arrange(date)
+```
+
+
+```{r echo=FALSE}
+tbl_data <- races |>
+  mutate(
+    overall = paste0(overall_rank, " / ", overall_total),
+    group_rank_disp = paste0(group_rank, " / ", group_total),
+    gender_rank_disp = paste0(gender_rank, " / ", gender_total),
+    gender_pctl = 1 - (gender_rank - 1) / gender_total,
+    overall_pctl_disp = scales::percent(overall_pctl, accuracy = 1),
+    group_pctl_disp = scales::percent(group_pctl, accuracy = 1),
+    gender_pctl_disp = scales::percent(gender_pctl, accuracy = 1)
+  ) |>
+  select(name, distance, date, location, time, per_mile_pace,
+         overall, overall_pctl_disp,
+         group, group_rank_disp, group_pctl_disp,
+         gender_rank_disp, gender_pctl_disp,
+         shoes, results_link, notes)
+```
+
+<label style="display:inline-flex; align-items:center; gap:6px; margin-bottom:8px; font-size:0.9rem;">
+  <input type="checkbox" onchange="
+    Reactable.toggleHideColumn('results-table', 'overall');
+    Reactable.toggleHideColumn('results-table', 'overall_pctl_disp');
+    Reactable.toggleHideColumn('results-table', 'group_rank_disp');
+    Reactable.toggleHideColumn('results-table', 'group_pctl_disp');
+    Reactable.toggleHideColumn('results-table', 'gender_rank_disp');
+    Reactable.toggleHideColumn('results-table', 'gender_pctl_disp');
+  ">
+  Show as percentile
+</label>
+
+```{r echo=FALSE}
+tbl_data |>
+  reactable(
+    elementId = "results-table",
+    searchable = TRUE,
+    filterable = TRUE,
+    defaultPageSize = 10,
+    defaultSorted = "date",
+    defaultSortOrder = "desc",
+    striped = TRUE,
+    highlight = TRUE,
+    columns = list(
+      name = colDef(name = "Race", minWidth = 160),
+      distance = colDef(name = "Dist.", maxWidth = 80),
+      date = colDef(name = "Date", format = colFormat(date = TRUE), maxWidth = 110),
+      location = colDef(name = "Location", minWidth = 130),
+      time = colDef(name = "Time", maxWidth = 90),
+      per_mile_pace = colDef(name = "Pace/mi", maxWidth = 90),
+      overall = colDef(name = "Overall Rank", maxWidth = 110),
+      overall_pctl_disp = colDef(name = "Overall %ile", maxWidth = 110, show = FALSE),
+      group = colDef(name = "Age Group", maxWidth = 100),
+      group_rank_disp = colDef(name = "Group Rank", maxWidth = 100),
+      group_pctl_disp = colDef(name = "Group %ile", maxWidth = 100, show = FALSE),
+      gender_rank_disp = colDef(name = "Gender Rank", maxWidth = 110),
+      gender_pctl_disp = colDef(name = "Gender %ile", maxWidth = 110, show = FALSE),
+      shoes = colDef(name = "Shoes", minWidth = 130),
+      results_link = colDef(
+        name = "Results",
+        maxWidth = 90,
+        cell = function(value) {
+          if (is.na(value) || value == "") return("")
+          htmltools::a(href = value, target = "_blank", "View →")
+        }
+      ),
+      notes = colDef(name = "Notes", minWidth = 150)
+    )
+  )
+```
