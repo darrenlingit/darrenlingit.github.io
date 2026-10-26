@@ -1,0 +1,61 @@
+---
+title: "Academic"
+format: html
+validate-yaml: false
+filters:
+  - multibib
+  - filters/bold-author.lua
+csl: citations/all-authors.csl
+bibliography:
+  abstracts: citations/abstracts.bib
+  presentations: citations/presentations.bib
+nocite: |
+  @*
+---
+
+## Research Experience
+
+- June 2025 – Present | **Graduate Student Researcher**, University of California, Los Angeles\
+  Advisor: [Dr. Falco J. Bargagli-Stoffi](https://www.falcobargaglistoffi.com/)
+- January 2023 – October 2024 | **Graduate Research Assistant**, Johns Hopkins University\
+  Advisor: [Dr. Ni Zhao](https://www.biostat.jhsph.edu/~nzhao/#home)
+- June – August 2021 | **Big Data Summer Institute Summer Research Intern**, University of Michigan\
+  Supervisors: Dr. Xiaoquan Wen and Dr. Johann Gagnon-Bartsch
+- June – August 2020 | **Bruins-in-Genomics Summer Research Intern**, University of California, Los Angeles\
+  Supervisor: Dr. Jae Hoon Sul
+- May 2019 – May 2020 | **Research Intern**, Johns Hopkins University\
+  Supervisor: Dr. Ryan Vandrey
+
+## Industry Experience
+
+- June – August 2026 | **Statistics PhD Intern**, AbbVie\
+  Supervisor: Jia Jia
+- April 2025 – June 2026 | **Graduate Research Intern**, Amgen Inc.\
+  Supervisor: Matt Austin
+- October 2020 – July 2023 | **Research Intern**, CHADIS, Inc.\
+  Supervisor: Dawn Lewis
+
+## Teaching Experience
+
+**University of California, Los Angeles**
+
+- Spring 2026 | **Teaching Assistant**, Causal Inference ([BIOSTAT M235](https://catalog.registrar.ucla.edu/course/2025/BIOSTATM235?siteYear=2025))
+- Spring 2025 | **Teaching Assistant**, Introduction to Biostatistics ([BIOSTAT 100](https://catalog.registrar.ucla.edu/course/2024/BIOSTAT100?siteYear=2024))
+- Winter 2025 | **Teaching Assistant**, Introduction to Biostatistics ([BIOSTAT 201B](https://catalog.registrar.ucla.edu/course/2024/BIOSTAT201B?siteYear=2024))
+- Fall 2024 | **Teaching Assistant**, Introduction to Biostatistics ([BIOSTAT 201A](https://catalog.registrar.ucla.edu/course/2024/BIOSTAT201A?siteYear=2024))
+
+**Johns Hopkins University**
+
+- Term IV 2024 | **Teaching Assistant**, Statistical Methods in Public Health IV ([PH.140.624](https://publichealth.jhu.edu/course/38772))
+- Term III 2024 | **Teaching Assistant**, Statistical Methods in Public Health III ([PH.140.623](https://publichealth.jhu.edu/course/38105))
+- Fall 2023 | **Teaching Assistant**, Public Health Biostatistics ([AS.280.345](https://e-catalogue.jhu.edu/archive/2023-24/search/?P=AS.280.345))
+
+## Conference Abstracts
+
+::: {#refs-abstracts}
+:::
+
+## Talks & Presentations
+
+::: {#refs-presentations}
+:::

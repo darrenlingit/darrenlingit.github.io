@@ -2,7 +2,7 @@
 title: Darren Lin
 about:
   template: trestles
-  image: images/darrenlin.jpg
+  image: images/darrenlin2.jpeg
   image-shape: round
   links:
     - icon: envelope
@@ -14,18 +14,24 @@ about:
     - icon: github
       text: Github
       href: https://github.com/darrenlingit
+    - text: "{{< fa brands orcid >}} ORCID"
+      href: https://orcid.org/0009-0002-8257-3875
 ---
 
-My name is Darren Lin. I am a doctoral student in the Department of Biostatistics at the University of California, Los Angeles. I previously received my bachelor's and master's degrees from Johns Hopkins University.
+My name is Darren Lin. I am a doctoral student in the [Department of Biostatistics](https://ph.ucla.edu/departments/biostatistics) at the [University of California, Los Angeles](https://www.ucla.edu/). I previously received my BS in [Applied Mathematics and Statistics](https://engineering.jhu.edu/ams/) and [Public Health Studies](https://krieger.jhu.edu/publichealth/) and my ScM in [Biostatistics](https://publichealth.jhu.edu/departments/biostatistics) from [Johns Hopkins University](https://www.jhu.edu/). I am currently advised by [Dr. Falco J. Bargagli-Stoffi](https://www.falcobargaglistoffi.com/). My research interests lie in causal inference, with a focus on heterogeneous treatment effects, risk-benefit assessment, and the generalizability of clinical trial findings to broader populations.
 
 ## Education
 
-**University of California, Los Angeles** | Los Angeles, CA
+**Ph.D. in Biostatistics** | 2024 - Present
 
-Ph.D. in Biostatistics | September 2024 - Present
+University of California, Los Angeles | Los Angeles, CA
 
-**Johns Hopkins University** | Baltimore, MD
 
-Sc.M. in Biostatistics | August 2022 - May 2024
+**Sc.M. in Biostatistics** | 2024
 
-B.S. in Applied Mathematics and Statistics | August 2018 - May 2022
+Johns Hopkins University | Baltimore, MD
+
+
+**B.S. in Applied Mathematics and Statistics; Public Health Studies** | 2022
+
+Johns Hopkins University | Baltimore, MD

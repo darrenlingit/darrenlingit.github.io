@@ -1,12 +1,17 @@
 /* css styles */
 
 /* Change color of active menu link */
-.navbar .nav-link.active {
+.navbar .nav-link.active,
+.navbar .dropdown-item.active {
   color: #797979 !important;
   font-weight: bold; /* bold */
 }
 
-/* Normal link color */
+.navbar .dropdown-item.active {
+  background-color: transparent;
+}
+
+/* Normal link color
 .navbar a.nav-link {
   color: #b6b6b6;
 }
@@ -14,6 +19,7 @@
 .navbar-brand {
   color: #b6b6b6;   /* color for brand link; left most link in navbar */
 }
+*/
 
 /* Hover color */
 .navbar a.nav-link:hover {
@@ -23,4 +29,3 @@
 .navbar-brand:hover {
   color: #797979 !important;   /* hover color for brand link; left most link in navbar */
 }
-

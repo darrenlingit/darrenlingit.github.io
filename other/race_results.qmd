@@ -1,0 +1,566 @@
+---
+title: "Race Results"
+format: html
+---
+
+
+```{r include=FALSE}
+library(readxl)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(lubridate)
+library(ggplot2)
+library(scales)
+library(janitor)
+library(reactable)
+library(tidyverse)
+library(here)
+
+here::i_am("other/race_results.qmd")
+```
+
+```{r include=FALSE}
+races_raw <- read_excel(here("data/race_results.xlsx"), sheet = 1) %>%
+  clean_names()
+
+
+
+hms_to_sec <- function(x) {
+  if (inherits(x, "POSIXct") || inherits(x, "POSIXt")) {
+    hour(x) * 3600 + minute(x) * 60 + second(x)
+  } else if (is.numeric(x)) {
+    # raw Excel serial fraction of a day
+    round(x * 86400)
+  } else {
+    period_to_seconds(hms(x))
+  }
+}
+
+sec_to_clock <- function(s) {
+  h <- s %/% 3600
+  m <- (s %% 3600) %/% 60
+  se <- round(s %% 60)
+  ifelse(h > 0,
+         sprintf("%d:%02d:%02d", h, m, se),
+         sprintf("%d:%02d", m, se))
+}
+races <- races_raw %>%
+  mutate(
+    date = as_date(date),
+    time_sec = hms_to_sec(time),
+    pace_sec = hms_to_sec(per_mile_pace),
+    time = sec_to_clock(time_sec),
+    per_mile_pace = sec_to_clock(pace_sec),
+    overall_pctl = 1 - (overall_rank - 1) / overall_total,
+    group_pctl = 1 - (group_rank - 1) / group_total,
+    distance_mi = case_when(
+      str_detect(distance, "^5K")  ~ 3.107,
+      str_detect(distance, "^10K") ~ 6.214,
+      str_detect(distance, "Half") ~ 13.11,
+      TRUE ~ NA_real_
+    )
+  ) %>%
+  arrange(date)
+```
+
+
+```{r echo=FALSE}
+tbl_data <- races |>
+  mutate(
+    overall = paste0(overall_rank, " / ", overall_total),
+    group_rank_disp = paste0(group_rank, " / ", group_total),
+    gender_rank_disp = paste0(gender_rank, " / ", gender_total),
+    gender_pctl = 1 - (gender_rank - 1) / gender_total,
+    overall_pctl_disp = scales::percent(overall_pctl, accuracy = 1),
+    group_pctl_disp = scales::percent(group_pctl, accuracy = 1),
+    gender_pctl_disp = scales::percent(gender_pctl, accuracy = 1)
+  ) |>
+  select(name, distance, date, location, time, per_mile_pace,
+         overall, overall_pctl_disp,
+         group, group_rank_disp, group_pctl_disp,
+         gender_rank_disp, gender_pctl_disp,
+         shoes, results_link, notes)
+```
+
+
+
+I picked up running in the summer following my first year as a way to destress while studying for my comprehensive exam. That same summer, I signed up for the Santa Monica 5k as a way to force myself to have a goal outside of passing my exam. Since then, I've run more races, partly to give me a goal outside of school, partly to stay healthy, and a huge part because I like collecting shiny medals and buying colorful shoes.
+
+## Races Timeline
+
+```{css, echo=FALSE}
+/* Timeline styles: scoped to .race-timeline so the table is unaffected. */
+.race-timeline {
+  --race-accent: #24476b;
+  --race-ink: #263238;
+  --race-muted: #58636c;
+  --race-line: #d1dbe4;
+  --race-card: #ffffff;
+  --race-tint: #edf2f6;
+  --race-overlap: 2.5rem;
+  max-width: 66rem;
+  margin: 2rem auto;
+  color: var(--race-ink);
+  position: relative;
+}
+.race-timeline::before {
+  content: "";
+  position: absolute;
+  top: 2.5rem;
+  bottom: 2rem;
+  left: 0.65rem;
+  width: 2px;
+  background: var(--race-line);
+}
+.race-timeline .race-year {
+  position: relative;
+  margin: 0;
+  padding: 1.75rem 0 1.25rem 3rem;
+  border: 0;
+  color: var(--race-accent);
+  font-size: 1.8rem;
+}
+.race-timeline .race-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+.race-timeline .race-entry {
+  position: relative;
+  padding: 0 0 2.5rem 3rem;
+}
+.race-timeline .race-entry::before {
+  content: "";
+  position: absolute;
+  top: 1.5rem;
+  left: calc(0.65rem + 1px);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 3px solid var(--race-card);
+  background: var(--race-accent);
+  box-shadow: 0 0 0 2px var(--race-line);
+  transform: translateX(-50%);
+}
+.race-timeline .race-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0;
+  align-items: start;
+  min-width: 0;
+}
+/* JavaScript adds these classes only when scroll reveal is supported. */
+.race-timeline .race-entry.reveal-pending .race-card {
+  opacity: 0;
+  transition: opacity 1000ms ease;
+}
+.race-timeline .race-entry.reveal-pending.is-visible .race-card,
+.race-timeline .race-entry.reveal-pending:focus-within .race-card {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .race-timeline .race-entry.reveal-pending .race-card {
+    opacity: 1;
+    transition: none;
+  }
+}
+.race-timeline .race-entry.is-reversed .race-photo {
+  grid-column: 2;
+  grid-row: 1;
+}
+.race-timeline .race-entry.is-reversed .race-card-body {
+  grid-column: 1;
+  grid-row: 1;
+}
+.race-timeline .race-entry.no-photo .race-card-body {
+  grid-column: 1 / -1;
+}
+.race-timeline .race-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 0.75rem;
+}
+.race-timeline .race-card-body {
+  padding: 1.25rem;
+  min-width: 0;
+  border-radius: 0.75rem;
+  background: #fafaf7; /* Matches website.navbar.background in _quarto.yml. */
+  position: relative;
+  z-index: 1;
+}
+/* Layer the text panel over the inner edge of each photo. */
+.race-timeline .race-entry:not(.no-photo) .race-card-body {
+  margin-top: 2rem;
+  margin-left: calc(-1 * var(--race-overlap));
+  box-shadow: 0 8px 24px rgb(38 50 56 / 8%);
+}
+.race-timeline .race-entry.is-reversed:not(.no-photo) .race-card-body {
+  margin-left: 0;
+  margin-right: calc(-1 * var(--race-overlap));
+}
+.race-timeline .race-date {
+  display: block;
+  color: var(--race-muted);
+  font-size: 0.85rem;
+  margin-bottom: 0.4rem;
+}
+.race-timeline .race-name {
+  font-size: 1.2rem;
+  line-height: 1.35;
+  margin: 0 0 0.4rem;
+  overflow-wrap: anywhere;
+}
+.race-timeline .race-location {
+  font-size: 0.9rem;
+  color: var(--race-muted);
+  margin-bottom: 0.9rem;
+}
+.race-timeline .race-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1.25rem;
+  margin: 0.9rem 0;
+}
+.race-timeline .race-stats > div {
+  min-width: 4rem;
+}
+.race-timeline .race-stats dt {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--race-muted);
+}
+.race-timeline .race-stats dd {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0.1rem 0 0;
+}
+.race-timeline .race-story {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  white-space: pre-line;
+  margin: 0.75rem 0;
+}
+.race-timeline .race-results-link {
+  color: var(--race-accent);
+  font-size: 0.9rem;
+  text-underline-offset: 0.2em;
+}
+.race-timeline .race-results-link:focus-visible {
+  outline: 2px solid var(--race-accent);
+  outline-offset: 4px;
+}
+/* Phones: keep the line on the left; stack photo above text for every race. */
+@media (max-width: 700px) {
+  .race-timeline .race-year {
+    padding-left: 2rem;
+  }
+  .race-timeline .race-entry {
+    padding-left: 2rem;
+  }
+  .race-timeline .race-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .race-timeline .race-card-body {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .race-timeline .race-entry:not(.no-photo) .race-card-body,
+  .race-timeline .race-entry.is-reversed:not(.no-photo) .race-card-body {
+    margin: 0;
+    box-shadow: none;
+  }
+}
+
+/* BEGIN ROUTE MAP STYLES */
+.race-timeline .route-map {
+  margin: 1rem 0;
+  border: 1px solid #dce2e6;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: #fafaf7;
+}
+.race-timeline .route-map .leaflet-container {
+  background: #fafaf7;
+  font-family: inherit;
+}
+.race-timeline .route-map .minimal-basemap {
+  filter: grayscale(100%);
+}
+.race-timeline .route-map .leaflet-control-attribution {
+  font-size: 9px;
+  background: rgb(250 250 247 / 90%);
+}
+/* END ROUTE MAP STYLES */
+
+```
+
+```{r}
+#| label: timeline-data
+#| include: false
+
+# Reuse the spreadsheet data and formatted times already prepared above.
+# Optional spreadsheet columns: Photo, Photo Caption (or Photo Alt), GPX File, Story.
+race_data <- as.data.frame(races)
+if ("photo_caption" %in% names(race_data)) {
+  if (!"photo_alt" %in% names(race_data)) race_data$photo_alt <- ""
+  missing_alt <- is.na(race_data$photo_alt) | !nzchar(trimws(race_data$photo_alt))
+  race_data$photo_alt[missing_alt] <- race_data$photo_caption[missing_alt]
+}
+for (column in c("location", "gpx_file", "story", "photo", "photo_alt", "results_link")) {
+  if (!column %in% names(race_data)) race_data[[column]] <- ""
+}
+race_data$gpx_file <- trimws(as.character(race_data$gpx_file))
+race_data$gpx_file[is.na(race_data$gpx_file)] <- ""
+if (anyNA(race_data$date)) stop("Every race needs a valid date.")
+race_data <- race_data[order(race_data$date), , drop = FALSE]
+```
+
+<!-- BEGIN ROUTE MAP DATA -->
+
+```{r}
+#| label: route-map-data
+#| include: false
+#| warning: false
+#| message: false
+
+library(sf)
+library(leaflet)
+
+# Read each unique nonblank file once; the spreadsheet row picks its own map.
+route_files <- unique(race_data$gpx_file[nzchar(race_data$gpx_file)])
+route_shapes <- setNames(lapply(route_files, function(file) {
+  path <- if (basename(file) == file) {
+    here::here("data", "races", file)
+  } else {
+    here::here(file)
+  }
+  if (!file.exists(path)) stop("GPX File not found: ", file,
+                              ". Check the path in data/race_results.xlsx.")
+  track <- sf::st_read(path, layer = "tracks", quiet = TRUE)
+  track <- sf::st_transform(sf::st_zm(track, drop = TRUE, what = "ZM"), 4326)
+  if (!nrow(track) || all(sf::st_is_empty(track))) stop("Empty GPX track: ", file)
+  # Keep only geometry: timestamps and other GPX fields are not embedded.
+  sf::st_sf(geometry = sf::st_geometry(track))
+}), route_files)
+
+race_route_map <- function(race) {
+  if (!nzchar(race$gpx_file)) return(invisible(NULL))
+  track <- route_shapes[[race$gpx_file]]
+  if (is.null(track)) return(invisible(NULL))
+  bounds <- sf::st_bbox(track)
+  xy <- sf::st_coordinates(track)
+  map <- leaflet::leaflet(
+    track, width = "100%", height = 210,
+    options = leaflet::leafletOptions(scrollWheelZoom = FALSE)
+  ) |>
+    leaflet::addTiles(options = leaflet::tileOptions(
+      className = "minimal-basemap", opacity = 0.5
+    )) |>
+    leaflet::addPolylines(color = "#FC4C02", weight = 4, opacity = 1) |>
+    leaflet::addCircleMarkers(
+      lng = xy[1, "X"], lat = xy[1, "Y"], radius = 4,
+      color = "#24476B", fillColor = "#FAFAF7", fillOpacity = 1,
+      weight = 2, label = "Start"
+    ) |>
+    leaflet::addCircleMarkers(
+      lng = xy[nrow(xy), "X"], lat = xy[nrow(xy), "Y"], radius = 4,
+      color = "#24476B", fillColor = "#24476B", fillOpacity = 1,
+      weight = 2, label = "Finish"
+    ) |>
+    leaflet::fitBounds(
+      bounds[["xmin"]], bounds[["ymin"]], bounds[["xmax"]], bounds[["ymax"]],
+      options = list(padding = c(12, 12))
+    )
+  # Register widget dependencies while printing inside the timeline's HTML loop.
+  widget <- knitr::knit_print(map)
+  knitr::knit_meta_add(attr(widget, "knit_meta"))
+  cat('<div class="route-map" role="region" aria-label="',
+      escape_html(paste("Route map for", race$name, race$distance)), '">\n', sep = "")
+  cat(as.character(widget))
+  cat('\n</div>\n')
+}
+```
+
+<!-- END ROUTE MAP DATA -->
+
+```{r}
+#| label: render-timeline
+#| echo: false
+#| results: asis
+
+# Escape text so punctuation and spreadsheet text render safely as HTML.
+escape_html <- function(x) {
+  x <- as.character(x)
+  x[is.na(x)] <- ""
+  x <- gsub("&", "&amp;", x, fixed = TRUE)
+  x <- gsub("<", "&lt;", x, fixed = TRUE)
+  x <- gsub(">", "&gt;", x, fixed = TRUE)
+  x <- gsub('"', "&quot;", x, fixed = TRUE)
+  gsub("'", "&#39;", x, fixed = TRUE)
+}
+has_text <- function(x) !is.na(x) && nzchar(trimws(as.character(x)))
+stat <- function(label, value) {
+  if (!has_text(value)) return("")
+  paste0("<div><dt>", escape_html(label), "</dt><dd>",
+         escape_html(value), "</dd></div>")
+}
+
+cat('<div class="race-timeline">\n')
+race_index <- 0L
+years <- unique(format(race_data$date, "%Y"))
+for (year in years) {
+  cat('<section aria-labelledby="race-year-', year, '">\n',
+      '<h3 class="race-year" id="race-year-', year, '">', year, '</h3>\n',
+      '<ol class="race-list">\n', sep = "")
+  entries <- race_data[format(race_data$date, "%Y") == year, , drop = FALSE]
+  for (i in seq_len(nrow(entries))) {
+    race <- entries[i, , drop = FALSE]
+    race_index <- race_index + 1L
+    entry_class <- paste("race-entry",
+                         if (race_index %% 2L == 0L) "is-reversed" else "",
+                         if (!has_text(race$photo)) "no-photo" else "")
+    cat('<li class="', entry_class, '"><article class="race-card">\n', sep = "")
+
+    # No empty photo box is shown when photo is blank.
+    if (has_text(race$photo)) {
+      if (!has_text(race$photo_alt)) stop("Add Photo Caption or Photo Alt for: ", race$name)
+      # Accept local relative paths only, keeping image assets in your project.
+      if (grepl("^(/|[A-Za-z][A-Za-z0-9+.-]*:|\\\\)", race$photo)) {
+        stop("Use a relative local photo path for: ", race$name)
+      }
+      # Accept paths written for either the website root or projects/ folder.
+      photo_path <- trimws(race$photo)
+      photo_candidates <- unique(c(photo_path, sub("^\\.\\./", "", photo_path),
+                                   file.path("..", photo_path)))
+      photo_candidates <- photo_candidates[file.exists(photo_candidates)]
+      if (!length(photo_candidates)) stop("Photo not found: ", race$photo)
+      photo_path <- photo_candidates[1]
+      cat('<img class="race-photo" src="', escape_html(photo_path),
+          '" alt="', escape_html(race$photo_alt), '" loading="lazy">\n', sep = "")
+    }
+
+    cat('<div class="race-card-body">\n',
+        '<time class="race-date" datetime="', format(race$date, "%Y-%m-%d"), '">',
+        format(race$date, "%B %d, %Y"), '</time>\n',
+        '<h4 class="race-name">', escape_html(race$name), '</h4>\n', sep = "")
+    if (has_text(race$location)) {
+      cat('<p class="race-location">', escape_html(race$location), '</p>\n', sep = "")
+    }
+    cat('<dl class="race-stats">', stat("Distance", race$distance),
+        stat("Finish", race$time), stat("Pace / mile", race$per_mile_pace), '</dl>\n', sep = "")
+    race_route_map(race)
+    if (has_text(race$story)) {
+      cat('<p class="race-story">', escape_html(race$story), '</p>\n', sep = "")
+    }
+    if (has_text(race$results_link) && grepl("^https?://", race$results_link)) {
+      cat('<a class="race-results-link" href="', escape_html(race$results_link),
+          '">Official results <span aria-hidden="true">→</span></a>\n', sep = "")
+    }
+    cat('</div></article></li>\n')
+  }
+  cat('</ol></section>\n')
+}
+cat('</div>\n')
+```
+
+```{=html}
+<script>
+// Reveal each photo-and-text entry once per page load.
+// Unobserving it after the first reveal keeps it visible when scrolling back.
+(() => {
+  const initRaceReveal = () => {
+    if (!("IntersectionObserver" in window) ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const entries = document.querySelectorAll(".race-timeline .race-entry");
+    const observer = new IntersectionObserver((changes) => {
+      changes.forEach(({ target, isIntersecting }) => {
+        if (!isIntersecting) return;
+        target.classList.add("is-visible");
+        observer.unobserve(target);
+      });
+    // Start farther into the viewport, rather than at its bottom edge.
+    }, { threshold: 0.15, rootMargin: "0px 0px -15% 0px" });
+
+    entries.forEach((entry) => {
+      entry.classList.add("reveal-pending");
+      // Keep anything above a restored scroll position readable, too.
+      if (entry.getBoundingClientRect().bottom <= 0) {
+        entry.classList.add("is-visible");
+      } else {
+        observer.observe(entry);
+      }
+      // Keyboard navigation should never land in an invisible panel.
+      entry.addEventListener("focusin", () => {
+        entry.classList.add("is-visible");
+        observer.unobserve(entry);
+      }, { once: true });
+    });
+  };
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initRaceReveal, { once: true });
+  } else {
+    initRaceReveal();
+  }
+})();
+</script>
+```
+
+## Results Table
+
+<label style="display:inline-flex; align-items:center; gap:6px; margin-bottom:8px; font-size:0.9rem;">
+  <input type="checkbox" onchange="
+    Reactable.toggleHideColumn('results-table', 'overall');
+    Reactable.toggleHideColumn('results-table', 'overall_pctl_disp');
+    Reactable.toggleHideColumn('results-table', 'group_rank_disp');
+    Reactable.toggleHideColumn('results-table', 'group_pctl_disp');
+    Reactable.toggleHideColumn('results-table', 'gender_rank_disp');
+    Reactable.toggleHideColumn('results-table', 'gender_pctl_disp');
+  ">
+  Show as percentile
+</label>
+
+```{r echo=FALSE}
+tbl_data |>
+  reactable(
+    elementId = "results-table",
+    searchable = TRUE,
+    filterable = TRUE,
+    defaultPageSize = 10,
+    defaultSorted = "date",
+    defaultSortOrder = "desc",
+    striped = TRUE,
+    highlight = TRUE,
+    columns = list(
+      name = colDef(name = "Race", minWidth = 160),
+      distance = colDef(name = "Dist.", maxWidth = 80),
+      date = colDef(name = "Date", format = colFormat(date = TRUE), maxWidth = 110),
+      location = colDef(name = "Location", minWidth = 130),
+      time = colDef(name = "Time", maxWidth = 90),
+      per_mile_pace = colDef(name = "Pace/mi", maxWidth = 90),
+      overall = colDef(name = "Overall Rank", maxWidth = 110),
+      overall_pctl_disp = colDef(name = "Overall %ile", maxWidth = 110, show = FALSE),
+      group = colDef(name = "Age Group", maxWidth = 100),
+      group_rank_disp = colDef(name = "Group Rank", maxWidth = 100),
+      group_pctl_disp = colDef(name = "Group %ile", maxWidth = 100, show = FALSE),
+      gender_rank_disp = colDef(name = "Gender Rank", maxWidth = 110),
+      gender_pctl_disp = colDef(name = "Gender %ile", maxWidth = 110, show = FALSE),
+      shoes = colDef(name = "Shoes", minWidth = 130),
+      results_link = colDef(
+        name = "Results",
+        maxWidth = 90,
+        cell = function(value) {
+          if (is.na(value) || value == "") return("")
+          htmltools::a(href = value, target = "_blank", "View →")
+        }
+      ),
+      notes = colDef(name = "Notes", minWidth = 150)
+    )
+  )
+```

@@ -1,0 +1,23 @@
+<script>
+// Highlight the current dropdown page and its parent navbar tab.
+(() => {
+  const markActiveDropdown = () => {
+    const normalizePath = (path) => path.replace(/\/index\.html$/, "/").replace(/\/$/, "");
+    const currentPath = normalizePath(window.location.pathname);
+    document.querySelectorAll(".navbar .dropdown-item[href]").forEach((link) => {
+      const target = new URL(link.href, window.location.href);
+      if (target.origin !== window.location.origin ||
+          normalizePath(target.pathname) !== currentPath) return;
+      link.classList.add("active");
+      link.setAttribute("aria-current", "page");
+      const dropdown = link.closest(".nav-item.dropdown");
+      dropdown?.querySelector(":scope > .nav-link.dropdown-toggle")?.classList.add("active");
+    });
+  };
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", markActiveDropdown, { once: true });
+  } else {
+    markActiveDropdown();
+  }
+})();
+</script>

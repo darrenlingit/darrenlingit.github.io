@@ -1,26 +1,34 @@
 project:
   type: website
   output-dir: docs
+  render:
+    - "**/*.qmd"
+    - "!research.qmd"
+    - "!about.qmd"
+    - "!apps/stock_est.qmd"
+    - "!other/timeline.qmd"
+    - "!other/big_foot_analysis/bigfoot_analysis.qmd"
 
 website:
   title: "Darren Lin"
   navbar:
-    background: "#f9f9f9"
+    background: "#FAFAF7"
+    foreground: "#263238"
     left:
       # - href: index.qmd
       #   text: Home
-      - href: teaching.qmd
-        text: Teaching
+      - href: academic.qmd
+        text: Academic
       # - href: research.qmd
       #   text: Research
-      - text: "Projects"
-        menu:
-          - text: "Race Results"
-            href: projects/race_results.qmd
-          - text: "Check Splitting Calculator"
-            href: projects/checksplit.qmd
       - href: CV.qmd
         text: CV
+      - text: "Other"
+        menu:
+          - text: "Race Results"
+            href: other/race_results.qmd
+          - text: "Check Splitting Calculator"
+            href: other/checksplit.qmd
       - text: "Course Guides"
         menu:
           - text: "Multivariate Biostatistics"
@@ -40,9 +48,12 @@ website:
 
 format:
   html:
-    theme: default
-    background-color: "#dad9d9"
+    theme: cosmos
+    #backgroundcolor: "#FAFAF7"
+    fontcolor: "#263238"
+    linkcolor: "#0066CC"
     css: styles.css
+    include-after-body: navbar-active.html
     toc: FALSE
     page-layout: full
 

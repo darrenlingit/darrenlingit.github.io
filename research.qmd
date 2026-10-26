@@ -1,5 +1,9 @@
 ---
 title: "Research"
 format: html
+search: false
 ---
+
+Research experience, conference abstracts, and talks and presentations are now on
+the [Academic page](academic.qmd).
 
