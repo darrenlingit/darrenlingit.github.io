@@ -60,7 +60,14 @@
     "href": "index.html",
     "title": "Darren Lin",
     "section": "",
-    "text": "My name is Darren Lin. I am a doctoral student in the Department of Biostatistics at the University of California, Los Angeles. I previously received my BS in Applied Mathematics and Statistics and Public Health Studies and my ScM in Biostatistics from Johns Hopkins University. I am currently advised by Dr. Falco J. Bargagli-Stoffi. My research interests lie in causal inference, with a focus on heterogeneous treatment effects, risk-benefit assessment, and the generalizability of clinical trial findings to broader populations."
+    "text": "My name is Darren Lin. I am a PhD student in the Department of Biostatistics at the University of California, Los Angeles. I previously received my BS in Applied Mathematics and Statistics and Public Health Studies and my ScM in Biostatistics from Johns Hopkins University. I am currently advised by Dr. Falco J. Bargagli-Stoffi. My research interests lie in causal inference, with a focus on heterogeneous treatment effects, risk-benefit assessment, and the generalizability of clinical trial findings to broader populations."
+  },
+  {
+    "objectID": "index.html#about",
+    "href": "index.html#about",
+    "title": "Darren Lin",
+    "section": "",
+    "text": "My name is Darren Lin. I am a PhD student in the Department of Biostatistics at the University of California, Los Angeles. I previously received my BS in Applied Mathematics and Statistics and Public Health Studies and my ScM in Biostatistics from Johns Hopkins University. I am currently advised by Dr. Falco J. Bargagli-Stoffi. My research interests lie in causal inference, with a focus on heterogeneous treatment effects, risk-benefit assessment, and the generalizability of clinical trial findings to broader populations."
   },
   {
     "objectID": "index.html#education",
@@ -70,22 +77,29 @@
     "text": "Education\nPh.D. in Biostatistics | 2024 - Present\nUniversity of California, Los Angeles | Los Angeles, CA\nSc.M. in Biostatistics | 2024\nJohns Hopkins University | Baltimore, MD\nB.S. in Applied Mathematics and Statistics; Public Health Studies | 2022\nJohns Hopkins University | Baltimore, MD"
   },
   {
-    "objectID": "other/race_results.html",
-    "href": "other/race_results.html",
+    "objectID": "index.html#github-contributions",
+    "href": "index.html#github-contributions",
+    "title": "Darren Lin",
+    "section": "GitHub Contributions",
+    "text": "GitHub Contributions\nBelow is my GitHub contributions calendar from the past year."
+  },
+  {
+    "objectID": "other/race-results.html",
+    "href": "other/race-results.html",
     "title": "Race Results",
     "section": "",
     "text": "I picked up running in the summer following my first year as a way to destress while studying for my comprehensive exam. That same summer, I signed up for the Santa Monica 5k as a way to force myself to have a goal outside of passing my exam. Since then, I’ve run more races, partly to give me a goal outside of school, partly to stay healthy, and a huge part because I like collecting shiny medals and buying colorful shoes."
   },
   {
-    "objectID": "other/race_results.html#races-timeline",
-    "href": "other/race_results.html#races-timeline",
+    "objectID": "other/race-results.html#timeline",
+    "href": "other/race-results.html#timeline",
     "title": "Race Results",
-    "section": "Races Timeline",
-    "text": "Races Timeline\n\n\n\n\n\n\n\n\n2025\n\n\n\n\n\n\nSeptember 07, 2025\n\nSanta Monica Classic\n\n\nSanta Monica, CA\n\n\n\n\nDistance\n\n\n5K\n\n\n\n\nFinish\n\n\n29:11\n\n\n\n\nPace / mile\n\n\n9:23\n\n\n\n\n\n\n\n\nMy first race and first 5k with my UCLA friends.\n\nOfficial results →\n\n\n\n\n\n\n\n2026\n\n\n\n\n\n\nJanuary 18, 2026\n\nRose Bowl Half Marathon & 5K\n\n\nPasadena, CA\n\n\n\n\nDistance\n\n\n5K\n\n\n\n\nFinish\n\n\n31:17\n\n\n\n\nPace / mile\n\n\n10:03\n\n\n\n\n\n\n\n\nMy second race and one of my favorite routes which ended in the iconic Rose Bowl.\n\nOfficial results →\n\n\n\n\n\n\n\nMarch 07, 2026\n\nLA 5K\n\n\nLos Angeles, CA\n\n\n\n\nDistance\n\n\n5K\n\n\n\n\nFinish\n\n\n32:36\n\n\n\n\nPace / mile\n\n\n10:29\n\n\n\n\n\n\n\n\nThe 5k race before the LA marathon (which I didn't run).\n\nOfficial results →\n\n\n\n\n\n\n\nAugust 01, 2026\n\nDim Sum & Then Some\n\n\nChicago, IL\n\n\n\n\nDistance\n\n\n10K\n\n\n\n\nFinish\n\n\n1:00:30\n\n\n\n\nPace / mile\n\n\n9:45\n\n\n\n\n\n\n\n\nMy first 10k, which I did with my AbbVie intern friends. It was also the first time I ran through puddles and rain.\n\nOfficial results →\n\n\n\n\n\n\n\nSeptember 13, 2026\n\nSanta Monica Classic\n\n\nSanta Monica, CA\n\n\n\n\nDistance\n\n\n10K\n\n\n\n\nFinish\n\n\n59:40\n\n\n\n\nPace / mile\n\n\n9:36\n\n\n\n\n\n\n\n\nBack in Santa Monica to do another 10k with some more UCLA friends.\n\nOfficial results →"
+    "section": "Timeline",
+    "text": "Timeline\n\n\n\n\n\n\n\n\n2025\n\n\n\n\n\n\nSeptember 07, 2025\n\nSanta Monica Classic\n\n\nSanta Monica, CA\n\n\n\n\nDistance\n\n\n5K\n\n\n\n\nFinish\n\n\n29:11\n\n\n\n\nPace / mile\n\n\n9:23\n\n\n\n\n\n\n\n\nMy first race and first 5k with my UCLA friends.\n\nOfficial results →\n\n\n\n\n\n\n\n2026\n\n\n\n\n\n\nJanuary 18, 2026\n\nRose Bowl Half Marathon & 5K\n\n\nPasadena, CA\n\n\n\n\nDistance\n\n\n5K\n\n\n\n\nFinish\n\n\n31:17\n\n\n\n\nPace / mile\n\n\n10:03\n\n\n\n\n\n\n\n\nMy second race and one of my favorite routes which ended in the iconic Rose Bowl.\n\nOfficial results →\n\n\n\n\n\n\n\nMarch 07, 2026\n\nLA 5K\n\n\nLos Angeles, CA\n\n\n\n\nDistance\n\n\n5K\n\n\n\n\nFinish\n\n\n32:36\n\n\n\n\nPace / mile\n\n\n10:29\n\n\n\n\n\n\n\n\nThe 5k race before the LA marathon (which I didn't run).\n\nOfficial results →\n\n\n\n\n\n\n\nAugust 01, 2026\n\nDim Sum & Then Some\n\n\nChicago, IL\n\n\n\n\nDistance\n\n\n10K\n\n\n\n\nFinish\n\n\n1:00:30\n\n\n\n\nPace / mile\n\n\n9:45\n\n\n\n\n\n\n\n\nMy first 10k, which I did with my AbbVie intern friends. It was also the first time I ran through puddles and rain.\n\nOfficial results →\n\n\n\n\n\n\n\nSeptember 13, 2026\n\nSanta Monica Classic\n\n\nSanta Monica, CA\n\n\n\n\nDistance\n\n\n10K\n\n\n\n\nFinish\n\n\n59:40\n\n\n\n\nPace / mile\n\n\n9:36\n\n\n\n\n\n\n\n\nBack in Santa Monica to do another 10k with some more UCLA friends.\n\nOfficial results →"
   },
   {
-    "objectID": "other/race_results.html#results-table",
-    "href": "other/race_results.html#results-table",
+    "objectID": "other/race-results.html#results-table",
+    "href": "other/race-results.html#results-table",
     "title": "Race Results",
     "section": "Results Table",
     "text": "Results Table\n  Show as percentile"

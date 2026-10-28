@@ -18,7 +18,9 @@ about:
       href: https://orcid.org/0009-0002-8257-3875
 ---
 
-My name is Darren Lin. I am a doctoral student in the [Department of Biostatistics](https://ph.ucla.edu/departments/biostatistics) at the [University of California, Los Angeles](https://www.ucla.edu/). I previously received my BS in [Applied Mathematics and Statistics](https://engineering.jhu.edu/ams/) and [Public Health Studies](https://krieger.jhu.edu/publichealth/) and my ScM in [Biostatistics](https://publichealth.jhu.edu/departments/biostatistics) from [Johns Hopkins University](https://www.jhu.edu/). I am currently advised by [Dr. Falco J. Bargagli-Stoffi](https://www.falcobargaglistoffi.com/). My research interests lie in causal inference, with a focus on heterogeneous treatment effects, risk-benefit assessment, and the generalizability of clinical trial findings to broader populations.
+## About
+
+My name is Darren Lin. I am a PhD student in the [Department of Biostatistics](https://ph.ucla.edu/departments/biostatistics) at the [University of California, Los Angeles](https://www.ucla.edu/). I previously received my BS in [Applied Mathematics and Statistics](https://engineering.jhu.edu/ams/) and [Public Health Studies](https://krieger.jhu.edu/publichealth/) and my ScM in [Biostatistics](https://publichealth.jhu.edu/departments/biostatistics) from [Johns Hopkins University](https://www.jhu.edu/). I am currently advised by [Dr. Falco J. Bargagli-Stoffi](https://www.falcobargaglistoffi.com/). My research interests lie in causal inference, with a focus on heterogeneous treatment effects, risk-benefit assessment, and the generalizability of clinical trial findings to broader populations.
 
 ## Education
 
@@ -35,3 +37,21 @@ Johns Hopkins University | Baltimore, MD
 **B.S. in Applied Mathematics and Statistics; Public Health Studies** | 2022
 
 Johns Hopkins University | Baltimore, MD
+
+## GitHub Contributions
+
+Below is my GitHub contributions calendar from the past year.
+
+```{=html}
+<section class="github-activity">
+  <!-- <h2>GitHub Activity</h2> -->
+  <a href="https://github.com/darrenlingit">
+    <img
+      src="https://ghchart.rshah.org/darrenlingit"
+      alt="Darren Lin's GitHub contribution graph"
+      style="width: 100%; max-width: 750px;"
+      loading="lazy"
+    />
+  </a>
+</section>
+```

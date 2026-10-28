@@ -17,7 +17,7 @@ library(reactable)
 library(tidyverse)
 library(here)
 
-here::i_am("other/race_results.qmd")
+here::i_am("other/race-results.qmd")
 ```
 
 ```{r include=FALSE}
@@ -87,7 +87,7 @@ tbl_data <- races |>
 
 I picked up running in the summer following my first year as a way to destress while studying for my comprehensive exam. That same summer, I signed up for the Santa Monica 5k as a way to force myself to have a goal outside of passing my exam. Since then, I've run more races, partly to give me a goal outside of school, partly to stay healthy, and a huge part because I like collecting shiny medals and buying colorful shoes.
 
-## Races Timeline
+## Timeline
 
 ```{css, echo=FALSE}
 /* Timeline styles: scoped to .race-timeline so the table is unaffected. */
