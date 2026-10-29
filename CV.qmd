@@ -2,7 +2,7 @@
 title: Curriculum Vitae
 description: "Darren Lin's CV"
 # update this date manually
-date: 2026-10-26
+date: 2026-10-29
 published-title: CV last updated
 engine: knitr
 freeze: false

@@ -50,6 +50,13 @@ nocite: |
 - Term III 2024 | **Teaching Assistant**, Statistical Methods in Public Health III ([PH.140.623](https://publichealth.jhu.edu/course/38105))
 - Fall 2023 | **Teaching Assistant**, Public Health Biostatistics ([AS.280.345](https://e-catalogue.jhu.edu/archive/2023-24/search/?P=AS.280.345))
 
+## Service and Leadership
+
+- September 2026 – Present | **Professional Development Coordinator**, [UCLA Biostatistics Student Association](https://ucla-bsa.github.io/)
+- September 2025 – June 2026 | **Vice President**, [UCLA Biostatistics Student Association](https://ucla-bsa.github.io/)
+- September 2025 – June 2026 | **Organizer**, UCLA Biostatistics Causal Inference Journal Club
+- October 2023 – May 2024 | **Social Coordinator**, Johns Hopkins Biostatistics ScM Program
+
 ## Conference Abstracts
 
 ::: {#refs-abstracts}
